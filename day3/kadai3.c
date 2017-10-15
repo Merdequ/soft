@@ -1,3 +1,8 @@
+/*
+-5pi から 5pi の範囲でsin(x)の値を出力する
+gnuplotで描画することで確かにsinになっていることが確認できる
+ */
+
 #include <stdio.h>
 #include <math.h>
 

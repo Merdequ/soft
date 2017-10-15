@@ -1,3 +1,9 @@
+/*
+世界のナベアツ的なことをする
+3の倍数または3を含む数字の後に!!!を付ける
+ */
+
+
 #include <stdio.h>
 #include <math.h>
 int isaho(int);
@@ -9,7 +15,7 @@ int main(void){
 }
 
 //3の倍数またはいずれかの桁に3を含む数字を受け取った場合は1、そうでない場合は0を返す
-int isaho(n){
+int isaho(int n){
   int digit;
   if(n % 3 == 0){
     return 1;
