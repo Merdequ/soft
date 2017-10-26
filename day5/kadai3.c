@@ -1,6 +1,7 @@
 /*
 配列を標準出力に表示
 入力に応じて配列を変更し、画面を更新する
+配列の内容をファイルに読み書きする機能を追加。
 */
 
 #include <stdio.h>
@@ -17,12 +18,29 @@ int main(void){
   char input[10];
   char cin[10]; //入力文字格納変数。長さの異常な入力の判定のためstr
   int i, j;
+  FILE *fp;
+
   // array initialization
-  for(i = 0; i < WIDTH; i++){
-    for(j = 0; j < HEIGHT; j++){
-      array[i][j] = '-';
+
+  if ((fp = fopen("data.txt", "r")) != NULL){
+    // read from file
+    for(i = 0; i < WIDTH; i++){
+      for(j = 0; j < HEIGHT; j++){
+	array[i][j] = getc(fp);
+      }
+    }
+    fclose(fp);
+    printf("read from file successfully\n\n");
+  }
+  else{
+    // first initialization 
+    for(i = 0; i < WIDTH; i++){
+      for(j = 0; j < HEIGHT; j++){
+	array[i][j] = '-';
+      }
     }
   }
+  
   //display
   system("clear");
   for(i = 0; i < WIDTH; i++){
@@ -64,6 +82,15 @@ int main(void){
     
     // modify array
     array[x][y] = cin[0];
+
+    //write to file
+    fp = fopen("data.txt", "w");
+    for(i = 0; i < WIDTH; i++){
+      for(j = 0; j < HEIGHT; j++){
+	fputc(array[i][j], fp);
+      }
+    }
+    fclose(fp);
     
     //display
     system("clear");
