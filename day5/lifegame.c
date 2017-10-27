@@ -7,11 +7,11 @@ LIFE GAME
 #include <stdlib.h>
 #include <string.h>
 
-#define WIDTH 30
-#define HEIGHT 30
+#define WIDTH 10
+#define HEIGHT 10
 #define LIVE 'O'
 #define DEAD '-'
-#define CLOCK 1
+#define CLOCK 3
 
 int main(void){
   char array[WIDTH][HEIGHT];
@@ -43,8 +43,8 @@ int main(void){
   
   //display
   system("clear");
-  for(i = 0; i < WIDTH; i++){
-    for(j = 0; j < HEIGHT; j++){
+  for(i = 1; i < WIDTH - 1; i++){
+    for(j = 1; j < HEIGHT - 1; j++){
       printf("%c ", array[i][j]);
     }
     printf("\n");
@@ -69,6 +69,17 @@ int main(void){
 	if(array[i+1][j  ] == LIVE) cnt++;
 	if(array[i+1][j+1] == LIVE) cnt++;
 
+	if(array[i][j] = DEAD){
+	  if(cnt == 3){
+	    array[i][j] == LIVE;
+	  }
+	}
+	else{
+	  if(cnt <= 1 || cnt >= 4){
+	    array[i][j] = DEAD;
+	  }
+	}
+	/*
 	if(cnt <= 1){
 	  array[i][j] = DEAD;
 	}
@@ -79,8 +90,9 @@ int main(void){
 	  array[i][j] = LIVE;
 	}
 	else{
-	  array[i][j] = LIVE;
+	  array[i][j] = DEAD;
 	}
+	*/
       }
     }
 
@@ -95,8 +107,8 @@ int main(void){
     
     //display
     system("clear");
-    for(i = 0; i < WIDTH; i++){
-      for(j = 0; j < HEIGHT; j++){
+    for(i = 1; i < WIDTH - 1; i++){
+      for(j = 1; j < HEIGHT - 1; j++){
 	printf("%c ", array[i][j]);
       }
       printf("\n");
