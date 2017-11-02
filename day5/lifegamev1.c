@@ -7,14 +7,15 @@ LIFE GAME
 #include <stdlib.h>
 #include <string.h>
 
-#define WIDTH 30
-#define HEIGHT 30
+#define WIDTH 10
+#define HEIGHT 10
 #define LIVE 'O'
 #define DEAD '-'
+#define CLOCK 3
 
 int main(void){
   char array[WIDTH][HEIGHT];
-  int x, y;
+  int cnt;
   char input[10];
   int i, j;
   FILE *fp;
@@ -42,8 +43,8 @@ int main(void){
   
   //display
   system("clear");
-  for(i = 0; i < WIDTH; i++){
-    for(j = 0; j < HEIGHT; j++){
+  for(i = 1; i < WIDTH - 1; i++){
+    for(j = 1; j < HEIGHT - 1; j++){
       printf("%c ", array[i][j]);
     }
     printf("\n");
@@ -53,28 +54,47 @@ int main(void){
   
   // main loop
   while(1){
-    //異常入力で無限ループに陥らないようにしている
-    //一度文字列として読み込んで、sscanf
-
-    // input process
-    if(scanf("%9[^\n]%*[^\n]", input) == EOF){
-      break;
-    }
-    getchar(); //バッファに改行が残るので、クリアする
-    
-    // format error
-    if(sscanf(input, "%d %d", &x, &y) != 2){
-      printf("invalid format\n");
-      continue;
-    }
-
-    if(!(0 <= x && x < WIDTH && 0 <= y && y < HEIGHT)){
-      printf("range error\n");
-      continue;
-    }
     
     // modify array
-    array[x][y] = (array[x][y] == LIVE)? DEAD: LIVE;
+    for(i = 1; i < WIDTH - 1; i++){
+      for(j = 1; j < HEIGHT - 1; j++){
+	// judge
+	cnt = 0;
+	if(array[i-1][j-1] == LIVE) cnt++;
+	if(array[i-1][j  ] == LIVE) cnt++;
+	if(array[i-1][j+1] == LIVE) cnt++;
+	if(array[i  ][j-1] == LIVE) cnt++;
+	if(array[i  ][j+1] == LIVE) cnt++;
+	if(array[i+1][j-1] == LIVE) cnt++;
+	if(array[i+1][j  ] == LIVE) cnt++;
+	if(array[i+1][j+1] == LIVE) cnt++;
+
+	if(array[i][j] = DEAD){
+	  if(cnt == 3){
+	    array[i][j] == LIVE;
+	  }
+	}
+	else{
+	  if(cnt <= 1 || cnt >= 4){
+	    array[i][j] = DEAD;
+	  }
+	}
+	/*
+	if(cnt <= 1){
+	  array[i][j] = DEAD;
+	}
+	else if(cnt == 2){
+	  ;
+	}
+	else if(cnt == 3){
+	  array[i][j] = LIVE;
+	}
+	else{
+	  array[i][j] = DEAD;
+	}
+	*/
+      }
+    }
 
     //write to file
     fp = fopen("savedata.txt", "w");
@@ -87,12 +107,13 @@ int main(void){
     
     //display
     system("clear");
-    for(i = 0; i < WIDTH; i++){
-      for(j = 0; j < HEIGHT; j++){
+    for(i = 1; i < WIDTH - 1; i++){
+      for(j = 1; j < HEIGHT - 1; j++){
 	printf("%c ", array[i][j]);
       }
       printf("\n");
     }
+    sleep(CLOCK);
   }
   printf("end successfully\n");
   return 0;
